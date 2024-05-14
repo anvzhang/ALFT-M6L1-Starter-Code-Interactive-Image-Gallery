@@ -1,6 +1,6 @@
 // Array of image sources and titles
 let images = [
-  { src: 'img/image1.jpg', title: 'Image 1', description: 'This is the description for Image 1.' },
+  { src: 'https://4.img-dpreview.com/files/p/E~TS590x0~articles/3925134721/0266554465.jpeg', title: 'Image 1', description: 'This is the description for Image 1.' },
   { src: 'img/image2.jpg', title: 'Image 2', description: 'This is the description for Image 2.' },
   // Add more image objects here
 ];
@@ -16,6 +16,7 @@ let closeBtn = document.querySelector('.close-btn');
 
 // Index of the currently displayed image
 let currentIndex = 0;
+let previousIndex = currentIndex;
 
 // Render thumbnail images
 function renderThumbnails() {
@@ -40,12 +41,14 @@ function openImageViewer(index) {
 
 // Navigate to the previous image
 function prevImage() {
+  previousIndex = currentIndex;
   currentIndex = (currentIndex - 1 + images.length) % images.length;
   updateImageViewer();
 }
 
 // Navigate to the next image
 function nextImage() {
+  previousIndex = currentIndex;
   currentIndex = (currentIndex + 1) % images.length;
   updateImageViewer();
 }
@@ -65,6 +68,13 @@ function closeImageViewer() {
 prevBtn.addEventListener('click', prevImage);
 nextBtn.addEventListener('click', nextImage);
 closeBtn.addEventListener('click', closeImageViewer);
+document.addEventListener('keydown', event => {
+  if (event.code === "ArrowLeft") {
+    prevImage();
+  } else if (event.code === "ArrowRight") {
+    nextImage();
+  }
+})
 
 // Render the initial thumbnails
 renderThumbnails();
